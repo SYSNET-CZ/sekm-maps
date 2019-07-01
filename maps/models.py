@@ -1,4 +1,5 @@
 from djgeojson.fields import PolygonField
+from djgeojson.fields import PointField
 from django.db import models
 from django.conf import settings
 
@@ -16,3 +17,19 @@ class ObjectSpot(models.Model):
     @property
     def picture_url(self):
         return self.picture.url
+
+class ObjectPoint(models.Model):
+
+    title = models.CharField(max_length=256)
+    description = models.TextField()
+    type = models.CharField(max_length=16)
+    picture = models.ImageField(upload_to=settings.IMAGE_DIR)
+    geom = PointField()
+
+    def __unicode__(self):
+        return self.title
+
+    @property
+    def picture_url(self):
+        return self.picture.url
+

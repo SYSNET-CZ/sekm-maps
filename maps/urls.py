@@ -20,13 +20,16 @@ from django.contrib import admin
 from django.views.generic import TemplateView
 from djgeojson.views import GeoJSONLayerView
 
-from .models import ObjectSpot
-
+from .models import ObjectSpot, ObjectPoint
+#from . import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', TemplateView.as_view(template_name='index.html'), name='home'),
-    url(r'^data.geojson$', GeoJSONLayerView.as_view(model=ObjectSpot, properties=('title', 'description', 'type', 'picture_url')), name='data')
+    url(r'^data.geojson$', GeoJSONLayerView.as_view(model=ObjectSpot, properties=('title', 'description', 'type', 'picture_url')), name='data'),
+    url(r'^spots.geojson$', GeoJSONLayerView.as_view(model=ObjectSpot, properties=('title', 'description', 'type', 'picture_url')), name='spots'),
+    url(r'^points.geojson$', GeoJSONLayerView.as_view(model=ObjectPoint, properties=('title', 'description', 'type', 'picture_url')), name='points'),
+    #url(r'^location/(?P<pk>[0-9]+)/$', views.location, name='location'),
 ] + static(settings.MEDIA_URL, document_root=settings.IMAGE_DIR)
 #] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

@@ -5,3 +5,5 @@ from . import models as maps_models
 
 
 admin.site.register(maps_models.ObjectSpot, LeafletGeoAdmin)
+admin.site.register(maps_models.ObjectPoint, LeafletGeoAdmin)
+

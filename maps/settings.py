@@ -139,4 +139,9 @@ LEAFLET_CONFIG = {
     ], 
     'ATTRIBUTION_PREFIX': '&copy; Application created by SYSNET s.r.o.',
  #   'MINIMAP': True,
+    'PLUGINS': {
+        'forms': {
+            'auto-include': True
+        }
+    }
 }
