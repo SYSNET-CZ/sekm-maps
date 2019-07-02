@@ -1,8 +1,10 @@
 {% load leaflet_tags %}
-<html>
+{% load staticfiles %}
+<html lang="cs">
   <head>
     {% leaflet_js %}
     {% leaflet_css %}
+    <script src="{% static 'static_jquery/js/jquery.js' %}" type="text/javascript"></script>    
     <style>
       .leaflet-container { height: 90%; }
     </style>
@@ -10,8 +12,9 @@
       var dataurl = '{% url "data" %}';
       var spotsurl = '{% url "spots" %}';
       var pointsurl = '{% url "points" %}';
-      //var sekmurl = 'https://sekm.sysnet.cz/rest/api/area-sources/gjson'
-      var sekmurl = 'file:///ajax/test.json'
+      var sekmurl = 'https://sekm.sysnet.cz/rest/api/area-sources/gjson'
+      //var sekmurl = 'file:///ajax/test.json'
+      var sekmfile = 'static/ajax/test.json'
       
       window.addEventListener("map:init", function (event) {
         var map = event.detail.map;
@@ -21,7 +24,6 @@
             return resp.json();
           })
           .then(function(data) {
-            console.log('POINTS: ' + JSON.stringify(data));
             L.geoJson(data, {
               onEachFeature: function onEachFeature(feature, layer) {
                 var props = feature.properties;
@@ -34,7 +36,6 @@
             return resp.json();
           })
           .then(function(data) {
-            console.log('SPOTS: ' + JSON.stringify(data));
             L.geoJson(data, {
               onEachFeature: function onEachFeature(feature, layer) {
                 var props = feature.properties;
@@ -42,20 +43,29 @@
                 layer.bindPopup(content);
             }}).addTo(map);
           });
-        fetch(sekmurl)
-          .then(function(resp) {
-            console.log(sekmurl + ': resp');
-            return resp.json();
-          })
-          .then(function(data) {
-            console.log('SEKM: ' + JSON.stringify(data));
-            L.geoJson(data, {
-              onEachFeature: function onEachFeature(feature, layer) {
-                var props = feature.properties;
-                var content = `<h3>${props.title}</h3><p>${props.description}</p><p>Typ: ${props.type}<p>Model: ${props.model}</p>`;
-                layer.bindPopup(content);
-            }}).addTo(map);
-          });
+
+        $.getJSON(sekmfile, function(data) {
+          L.geoJson(data, {
+            onEachFeature: function onEachFeature(feature, layer) {
+              var props = feature.properties;
+              var content = `<h3>${props.title}</h3><p>${props.description}</p><p>Typ: ${props.type}<p>Model: ${props.model}</p>`;
+              layer.bindPopup(content);
+          }}).addTo(map);
+          
+        });  
+        //fetch(sekmurl)
+        //  .then(function(resp) {
+        //    console.log(sekmurl + ': resp');
+        //    return resp.json();
+        //  })
+        //  .then(function(data) {
+        //    L.geoJson(data, {
+        //      onEachFeature: function onEachFeature(feature, layer) {
+        //        var props = feature.properties;
+        //        var content = `<h3>${props.title}</h3><p>${props.description}</p><p>Typ: ${props.type}<p>Model: ${props.model}</p>`;
+        //        layer.bindPopup(content);
+        //    }}).addTo(map);
+        //  });
       });
     </script>
   </head>

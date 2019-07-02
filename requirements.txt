@@ -3,6 +3,7 @@ Django==2.2.2
 django-geojson==2.12.0
 django-leaflet==0.24.0
 django-cors-headers==3.0.2
+django-static-jquery==2.1.4
 jsonfield==2.0.2
 Pillow==4.2.1
 six==1.10.0
