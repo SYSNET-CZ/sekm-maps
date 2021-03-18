@@ -1,5 +1,5 @@
 #Django==1.11.16
-Django==2.2.2
+Django==2.2.18
 django-geojson==2.12.0
 django-leaflet==0.24.0
 django-cors-headers==3.0.2
